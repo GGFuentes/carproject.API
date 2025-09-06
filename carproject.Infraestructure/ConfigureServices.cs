@@ -12,7 +12,8 @@ namespace carproject.Infraestructure
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Connection string via appsettings or environment variable (Docker Compose sets ConnectionStrings__Default)
-            var connectionString = configuration.GetConnectionString("Default");
+            var connectionString = configuration.GetConnectionString("Default")?? Environment.GetEnvironmentVariable("ConnectionStrings__Default");
+
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(connectionString));
 
